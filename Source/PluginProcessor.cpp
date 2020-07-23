@@ -10,10 +10,9 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-Gaintutorial1AudioProcessor::Gaintutorial1AudioProcessor():
-    rawVolume(0.015)
+Gaintutorial1AudioProcessor::Gaintutorial1AudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
-     , AudioProcessor (BusesProperties()
+     : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
                       #if ! JucePlugin_IsSynth
                        .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
@@ -185,6 +184,11 @@ void Gaintutorial1AudioProcessor::setStateInformation (const void* data, int siz
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+void Gaintutorial1AudioProcessor::setRawVolume(double volume)
+{
+        rawVolume = volume;
 }
 
 //==============================================================================
