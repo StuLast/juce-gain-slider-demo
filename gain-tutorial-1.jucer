@@ -4,7 +4,7 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
               companyName="Spyced Concepts" companyCopyright="Spyced Concepts"
               companyWebsite="https://spycedconcepts.uk" companyEmail="info@spycedconcepts.uk"
-              pluginFormats="buildAU,buildStandalone,buildVST,buildVST3">
+              pluginFormats="buildStandalone,buildVST3">
   <MAINGROUP id="QwF0vx" name="gain-tutorial-1">
     <GROUP id="{1A26EE4E-AFEC-45A4-BD96-FC7B9A1A09BA}" name="Source">
       <FILE id="zRq95Q" name="PluginProcessor.cpp" compile="1" resource="0"

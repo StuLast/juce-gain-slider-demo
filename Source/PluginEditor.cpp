@@ -19,8 +19,8 @@ Gaintutorial1AudioProcessorEditor::Gaintutorial1AudioProcessorEditor (Gaintutori
     
     gainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     gainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    gainSlider.setRange(0.0, 1.0);
-    gainSlider.setValue(0.5);
+    gainSlider.setRange(-48.0, 0.0);
+    gainSlider.setValue(-6.0);
     gainSlider.addListener(this);
     addAndMakeVisible(gainSlider);
     
@@ -44,6 +44,6 @@ void Gaintutorial1AudioProcessorEditor::resized()
 void Gaintutorial1AudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &gainSlider) {
-        audioProcessor.setRawVolume(gainSlider.getValue());
+        audioProcessor.setRawVolume(pow(10, gainSlider.getValue()/20));
     }
 }
