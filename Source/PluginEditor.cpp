@@ -31,7 +31,7 @@ Gaintutorial1AudioProcessorEditor::Gaintutorial1AudioProcessorEditor (Gaintutori
 
 Gaintutorial1AudioProcessorEditor::~Gaintutorial1AudioProcessorEditor()
 {
-    delete &sliderValue;
+
 }
 
 //==============================================================================
