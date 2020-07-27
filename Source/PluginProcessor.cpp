@@ -154,7 +154,10 @@ void Gaintutorial1AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    auto sliderGainValue = treeState.getRawParameterValue(GAIN_ID);
+    buffer.applyGain(juce::Decibels::decibelsToGain<float>(*sliderGainValue));
+    
+    /*for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto channelData = buffer.getWritePointer (channel);
         auto sliderGainValue = treeState.getRawParameterValue(GAIN_ID);
@@ -163,7 +166,7 @@ void Gaintutorial1AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         {
             channelData[sample] = buffer.getSample(channel, sample) * juce::Decibels::decibelsToGain<float>(*sliderGainValue);
         }
-    }
+    }*/
 }
 
 //==============================================================================

@@ -14,7 +14,7 @@
 //==============================================================================
 /**
 */
-class Gaintutorial1AudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Slider::Listener
+class Gaintutorial1AudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
     Gaintutorial1AudioProcessorEditor (Gaintutorial1AudioProcessor&);
@@ -32,8 +32,6 @@ private:
     Gaintutorial1AudioProcessor& audioProcessor;
     juce::Slider gainSlider;
     juce::Label gainLabel;
-
-    void sliderValueChanged(juce::Slider* slider) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Gaintutorial1AudioProcessorEditor)
 };
