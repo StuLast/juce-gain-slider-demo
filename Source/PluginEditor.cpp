@@ -13,6 +13,9 @@
 Gaintutorial1AudioProcessorEditor::Gaintutorial1AudioProcessorEditor (Gaintutorial1AudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
+
+    sliderValue = std::make_unique <juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, GAIN_ID, gainSlider);
+     
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (200, 400);
@@ -28,6 +31,7 @@ Gaintutorial1AudioProcessorEditor::Gaintutorial1AudioProcessorEditor (Gaintutori
 
 Gaintutorial1AudioProcessorEditor::~Gaintutorial1AudioProcessorEditor()
 {
+    delete &sliderValue;
 }
 
 //==============================================================================
@@ -44,6 +48,6 @@ void Gaintutorial1AudioProcessorEditor::resized()
 void Gaintutorial1AudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &gainSlider) {
-        audioProcessor.setRawVolume(pow(10, gainSlider.getValue()/20));
+        //audioProcessor.setRawVolume(pow(10, gainSlider.getValue()/20));
     }
 }

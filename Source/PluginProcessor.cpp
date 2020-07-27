@@ -12,14 +12,18 @@
 //==============================================================================
 Gaintutorial1AudioProcessor::Gaintutorial1AudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                     #endif
-                       )
+    : AudioProcessor(BusesProperties()
+#if ! JucePlugin_IsMidiEffect
+#if ! JucePlugin_IsSynth
+        .withInput("Input", juce::AudioChannelSet::stereo(), true)
+#endif
+        .withOutput("Output", juce::AudioChannelSet::stereo(), true)
+#endif
+    ),
+    treeState(*this, nullptr, "PARAMETER",
+        {
+            std::make_unique<juce::AudioParameterFloat>(GAIN_ID, GAIN_NAME, juce::NormalisableRange<float>(-48.0f, 0.0f), -15.0f)
+        })
 #endif
 {
 }
@@ -152,11 +156,12 @@ void Gaintutorial1AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     // interleaved by keeping the same state.
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        auto* channelData = buffer.getWritePointer (channel);
+        auto channelData = buffer.getWritePointer (channel);
+        auto sliderGainValue = treeState.getRawParameterValue(GAIN_ID);
 
-        for (int sample = 0l; sample < buffer.getNumSamples(); ++sample)
+        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
-            channelData[sample] = buffer.getSample(channel, sample) * rawVolume;
+            channelData[sample] = buffer.getSample(channel, sample) * juce::Decibels::decibelsToGain<float>(*sliderGainValue);
         }
     }
 }
@@ -184,11 +189,6 @@ void Gaintutorial1AudioProcessor::setStateInformation (const void* data, int siz
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
-}
-
-void Gaintutorial1AudioProcessor::setRawVolume(double volume)
-{
-        rawVolume = volume;
 }
 
 //==============================================================================
