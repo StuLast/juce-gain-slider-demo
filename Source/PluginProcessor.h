@@ -9,6 +9,8 @@
 #pragma once
 
 #include <JuceHeader.h>
+#define GAIN_ID "gain"
+#define GAIN_NAME "Gain"
 
 //==============================================================================
 /**
@@ -53,12 +55,14 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    void setRawVolume(double volume);
+    float rawGainValue;
+    juce::AudioProcessorValueTreeState treeState;
 
 private:
     //==============================================================================
  
-    double rawVolume;
+
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Gaintutorial1AudioProcessor)
 
 };
