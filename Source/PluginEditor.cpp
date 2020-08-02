@@ -9,6 +9,8 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+
+
 //==============================================================================
 Gaintutorial1AudioProcessorEditor::Gaintutorial1AudioProcessorEditor (Gaintutorial1AudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
@@ -25,7 +27,8 @@ Gaintutorial1AudioProcessorEditor::Gaintutorial1AudioProcessorEditor (Gaintutori
     gainSlider.setRange(-48.0, 0.0);
     gainSlider.setValue(-6.0);
     addAndMakeVisible(gainSlider);
-    
+
+   
 }
 
 Gaintutorial1AudioProcessorEditor::~Gaintutorial1AudioProcessorEditor()

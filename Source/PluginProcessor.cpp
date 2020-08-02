@@ -96,10 +96,14 @@ void Gaintutorial1AudioProcessor::changeProgramName (int index, const juce::Stri
 }
 
 //==============================================================================
-void Gaintutorial1AudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void Gaintutorial1AudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    //previousGain = *treeState.getRawParameterValue(GAIN_ID);
+    //previousGain = pow(10, *treeState.getRawParameterValue(GAIN_ID) / 20);
+    previousGain = juce::Decibels::decibelsToGain(*treeState.getRawParameterValue(GAIN_ID) + 0.0);
+
 }
 
 void Gaintutorial1AudioProcessor::releaseResources()
@@ -138,8 +142,6 @@ void Gaintutorial1AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-
-
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -155,19 +157,19 @@ void Gaintutorial1AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    auto sliderGainValue = treeState.getRawParameterValue(GAIN_ID);
-    buffer.applyGain(juce::Decibels::decibelsToGain<float>(*sliderGainValue));
     
-    /*for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto channelData = buffer.getWritePointer (channel);
-        auto sliderGainValue = treeState.getRawParameterValue(GAIN_ID);
+    float currentGain = juce::Decibels::decibelsToGain(*treeState.getRawParameterValue(GAIN_ID) + 0.0);
 
-        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
-        {
-            channelData[sample] = buffer.getSample(channel, sample) * juce::Decibels::decibelsToGain<float>(*sliderGainValue);
-        }
-    }*/
+    if (currentGain == previousGain)
+    {
+        buffer.applyGain(currentGain);
+    }
+    else
+    {
+       //buffer.applyGain(currentGain);
+       buffer.applyGainRamp(0, buffer.getNumSamples(), previousGain, currentGain);
+       previousGain = currentGain;
+    }
 }
 
 //==============================================================================
