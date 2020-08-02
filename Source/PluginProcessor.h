@@ -55,8 +55,8 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    float rawGainValue;
     juce::AudioProcessorValueTreeState treeState;
+    float previousGain;
 
 private:
     //==============================================================================
